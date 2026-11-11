@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorteo de clase</title>
+</head>
+<body>
+    <h1>Sorteo de clase</h1>
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre">
+    <button onclick="agregarParticipante()">Añadir participante</button>
+    <button onclick="realizarSorteo()">Realizar sorteo</button>
+
+    <p id="aviso"></p>
+    <h2>Participantes</h2>
+    <pre id="listaParticipantes"></pre>
+    <h2>Resultado</h2>
+    <p id="resultado"></p>
+
+    <!-- AMPLIACIÓN -->
+    </hr>
+    <h2>Ampliación</h2>
+    <p>Se puede borrar la lista de participantes y el resultado del sorteo.</p>
+    <button onclick="borrarParticipantes()">Borrar participantes</button>
+
+    <script>
+        class Participante {
+            constructor(nombre) {
+                this.nombre = nombre;
+                this.fecha = new Date();
+            }
+
+            descripcion() {
+                const dia = this.fecha.getDate();
+                const mes = this.fecha.getMonth() + 1;
+                const anio = this.fecha.getFullYear();
+                return this.nombre + " (" + dia + "/" + mes + "/" + anio + ")";
+            }
+        }
+
+        const participantes = [];
+
+        /**
+         * Añade un participante a la lista y lo muestra en la página.
+         * Si el campo está vacío, muestra un aviso.
+         */
+        function agregarParticipante() {
+            const campo = document.getElementById("nombre");
+            const nombre = campo.value.trim();
+            const aviso = document.getElementById("aviso");
+
+            if (nombre === "") {
+                aviso.textContent = "Escribe el nombre del participante.";
+                return;
+            }
+
+            participantes.push(new Participante(nombre));
+            mostrarParticipantes();
+            campo.value = "";
+            aviso.textContent = "";
+        }
+
+        function mostrarParticipantes() {
+            let texto = "";
+            for (const participante of participantes) {
+                texto += participante.descripcion() + "\n";
+            }
+            document.getElementById("listaParticipantes").textContent = texto;
+        }
+
+        function realizarSorteo() {
+            const resultado = document.getElementById("resultado");
+            if (participantes.length === 0) {
+                resultado.textContent = "No hay participantes para el sorteo.";
+                return;
+            }
+
+            // Se elige un índice aleatorio entre 0 y participantes.length - 1.
+            // Math.random() devuelve un número entre 0 (inclusive) y 1 (exclusivo).
+            // Math.floor() redondea hacia abajo, así que el índice máximo es participantes.length - 1.
+            const indice = Math.floor(Math.random() * participantes.length);
+            resultado.textContent = "Ha salido " + participantes[indice].nombre + ".";
+        }
+
+        // AMPLIACIÓN. Vaciar la lista y borrar el resultado.
+        function borrarParticipantes() {
+            // Vacía la lista de participantes
+            participantes.length = 0;
+            mostrarParticipantes();
+            document.getElementById("resultado").textContent = "";
+            document.getElementById("aviso").textContent = "";
+        }
+    </script>
+</body>
+</html>

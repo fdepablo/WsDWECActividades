@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi catálogo de motos</title>
+    <style>
+        table { border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid black; padding: 8px; }
+        dialog { padding: 20px; }
+        dialog p { margin: 10px 0; }
+        #error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Mi catálogo de motos</h1>
+
+    <button onclick="abrirModal()">Añadir motocicleta</button>
+
+    <table id="tablaMotos">
+        <tr>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Precio (€)</th>
+            <th>Acciones</th>
+        </tr>
+    </table>
+
+    <dialog id="modalAnadir">
+        <h2>Añadir motocicleta</h2>
+        <p>Marca: <input type="text" id="marca"></p>
+        <p>Modelo: <input type="text" id="modelo"></p>
+        <p>Precio (€): <input type="number" id="precio"></p>
+        <p id="error"></p>
+        <button onclick="anadirMoto()">Aceptar</button>
+        <button onclick="cerrarModal()">Cancelar</button>
+    </dialog>
+
+    <!-- AMPLIACIÓN: ventana de confirmación para eliminar una moto -->
+    <dialog id="modalEliminar">
+        <p>¿Seguro que quieres eliminar esta motocicleta?</p>
+        <button onclick="confirmarEliminar()">Eliminar</button>
+        <button onclick="document.getElementById('modalEliminar').close()">Cancelar</button>
+    </dialog>
+
+    <script>
+        function abrirModal() {
+            document.getElementById("modalAnadir").showModal();
+        }
+
+        function cerrarModal() {
+            document.getElementById("modalAnadir").close();
+        }
+
+        function anadirMoto() {
+            const marca = document.getElementById("marca").value.trim();
+            const modelo = document.getElementById("modelo").value.trim();
+            const precio = document.getElementById("precio").value;
+            const error = document.getElementById("error");
+
+            if (marca === "" || modelo === "" || precio === "" || Number(precio) <= 0) {
+                error.textContent = "Completa los campos y escribe un precio mayor que cero.";
+                return;
+            }
+
+            // Creamos una fila y sus celdas con el DOM.
+            const fila = document.createElement("tr");
+            const celdaMarca = document.createElement("td");
+            const celdaModelo = document.createElement("td");
+            const celdaPrecio = document.createElement("td");
+            const celdaAcciones = document.createElement("td");
+
+            celdaMarca.textContent = marca;
+            celdaModelo.textContent = modelo;
+            celdaPrecio.textContent = precio;
+
+            fila.appendChild(celdaMarca);
+            fila.appendChild(celdaModelo);
+            fila.appendChild(celdaPrecio);
+            fila.appendChild(celdaAcciones);
+            document.getElementById("tablaMotos").appendChild(fila);
+
+            // AMPLIACIÓN: crear el botón Eliminar de la fila.
+            const botonEliminar = document.createElement("button");
+            botonEliminar.textContent = "Eliminar";
+            botonEliminar.setAttribute("onclick", "abrirModalEliminar(this)");
+            celdaAcciones.appendChild(botonEliminar);
+
+            // Limpiamos los campos y cerramos la ventana.
+            document.getElementById("marca").value = "";
+            document.getElementById("modelo").value = "";
+            document.getElementById("precio").value = "";
+            error.textContent = "";
+            cerrarModal();
+        }
+
+        // AMPLIACIÓN: eliminación con confirmación.
+        let filaParaEliminar;
+
+        function abrirModalEliminar(boton) {
+            filaParaEliminar = boton.parentElement.parentElement;
+            document.getElementById("modalEliminar").showModal();
+        }
+
+        function confirmarEliminar() {
+            filaParaEliminar.remove();
+            document.getElementById("modalEliminar").close();
+        }
+    </script>
+</body>
+</html>

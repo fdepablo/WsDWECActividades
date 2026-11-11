@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscripción a un taller</title>
+    <style>
+        .error { color: #a00000; }
+        #mensaje { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Inscripción a un taller</h1>
+
+    <form>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre">
+        <p id="errorNombre" class="error"></p>
+
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario">
+        <p id="errorUsuario" class="error"></p>
+
+        <label for="codigoPostal">Código postal</label>
+        <input type="text" id="codigoPostal">
+        <p id="errorCodigoPostal" class="error"></p>
+
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono">
+        <p id="errorTelefono" class="error"></p>
+
+        <!-- El botón es de tipo "button" para evitar el envío del formulario -->
+        <button type="button" onclick="comprobarInscripcion()">Comprobar inscripción</button>
+        <p id="mensaje"></p>
+    </form>
+
+    <script src="validacion.js"></script>
+</body>
+</html>

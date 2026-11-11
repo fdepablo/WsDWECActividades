@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tienda</title>
+</head>
+<body>
+
+    <h1>Pedidos pendientes</h1>
+    <p>Abre la consola del navegador para ver las pruebas.</p>
+    <pre id="listaPedidos"></pre>
+    <button onclick="agregarPedido('Eva'); mostrarPedidosEnPagina()">Añadir pedido de Eva</button>
+
+    <!-- El script va después del elemento <pre> para que el navegador ya lo haya creado
+         cuando se ejecuta mostrarPedidosEnPagina() y lo busca con getElementById(). -->
+
+    <script>
+        // 1. Precio de una compra
+        function calcularPrecio(precio, unidades, esSocio) {
+            let importe = precio * unidades;
+            if (esSocio) {
+                importe = importe * 0.9;
+            }
+            if (importe < 50) {
+                importe = importe + 4;
+            }
+            return importe;
+        }
+
+        console.log(calcularPrecio(20, 2, false)); // 44
+        console.log(calcularPrecio(20, 3, true));  // 54
+        console.log(calcularPrecio(10, 5, false)); // 50
+
+        // 2. Ventas de una semana
+        const ventas = [35, 0, 82, 47, 120, 18, 53];
+
+        function totalVentas() {
+            let total = 0;
+            for (const venta of ventas) {
+                total += venta;
+            }
+            return total;
+        }
+
+        console.log("Total vendido", totalVentas());
+
+        function contarDias() {
+            let dias = 0;
+            for (const venta of ventas) {
+                if (venta >= 50) {
+                    dias++;
+                }
+            }
+            return dias;
+        }
+
+        console.log("Días con ventas de 50 € o más", contarDias());
+
+        function indiceVentaMaxima() {
+            let indiceMaximo = 0;
+
+            for (let i = 1; i < ventas.length; i++) {
+                if (ventas[i] > ventas[indiceMaximo]) {
+                    indiceMaximo = i;
+                }
+            }
+
+            return indiceMaximo;
+        }
+
+        const indice = indiceVentaMaxima();
+
+        console.log("Venta máxima:", ventas[indice]); // 120
+        console.log("Índice del día:", indice);        // 4
+
+        // Otra manera, devolver un objeto JSON con el importe y el índice del día de la venta máxima.
+        function ventaMaxima() {
+            let indiceMaximo = 0;
+            for (let i = 1; i < ventas.length; i++) {
+                if (ventas[i] > ventas[indiceMaximo]) {
+                    indiceMaximo = i;
+                }
+            }
+            return { importe: ventas[indiceMaximo], indice: indiceMaximo };
+        }
+
+        console.log("Venta máxima JSON: ", ventaMaxima());
+
+        function mediaDiaria() {
+            return totalVentas() / ventas.length;
+        }
+
+        console.log("Media diaria", mediaDiaria().toFixed(2));
+
+        // 3. Pedidos pendientes
+        const pedidos = ["Ana", "Luis", "Marta", "Sara"];
+
+        function agregarPedido(nombre) {
+            pedidos.push(nombre);
+        }
+
+        function atenderPedido() {
+            if (pedidos.length === 0) {
+                return "No hay pedidos pendientes";
+            }
+            // Devuelve el primer pedido y lo elimina de la lista. Funciona como una cola (FIFO).
+            return pedidos.shift();
+        }
+
+        function cancelarPedido(nombre) {
+            for (let i = 0; i < pedidos.length; i++) {
+                if (pedidos[i] === nombre) {
+                    // splice(i, 1) elimina el elemento en la posición i. splice(i) borra desde la posición i hasta el final
+                    pedidos.splice(i, 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function mostrarPedidos() {
+            for (let i = 0; i < pedidos.length; i++) {
+                console.log((i + 1) + ". " + pedidos[i]);
+            }
+        }
+
+        agregarPedido("Pablo");
+        console.log("Después de añadir a Pablo", pedidos.slice());
+        console.log("Pedido atendido", atenderPedido());
+        console.log("Pedidos pendientes", pedidos.slice());
+        console.log("¿Se canceló el pedido de Marta?", cancelarPedido("Marta"));
+        console.log("Pedidos pendientes", pedidos.slice());
+        console.log("¿Se canceló el pedido de Eva?", cancelarPedido("Eva"));
+        console.log("Pedidos pendientes", pedidos.slice());
+        mostrarPedidos();
+
+        // AMPLIACIÓN A. Cancelar todos los pedidos de un nombre.
+        function cancelarTodos(lista, nombre) {
+            // Recorremos la lista hacia atrás para no saltarnos elementos al borrar.
+            // splice() desplaza hacia la izquierda los elementos que quedan a la derecha del que borras. 
+            // Si después hacemos i++, te saltas el elemento que acaba de ocupar la posición i.
+            for (let i = lista.length - 1; i >= 0; i--) {
+                if (lista[i] === nombre) {
+                    lista.splice(i, 1);
+                }
+            }
+        }
+
+        const pedidosRepetidos = ["Ana", "Luis", "Ana"];
+        cancelarTodos(pedidosRepetidos, "Ana");
+        console.log("Después de cancelar todos los pedidos de Ana", pedidosRepetidos);
+
+        // AMPLIACIÓN B. Mostrar los pedidos en la página.
+        function mostrarPedidosEnPagina() {
+            let texto = "";
+            for (let i = 0; i < pedidos.length; i++) {
+                texto += (i + 1) + ". " + pedidos[i] + "\n";
+            }
+            document.getElementById("listaPedidos").textContent = texto;
+        }
+
+        mostrarPedidosEnPagina();
+    </script>
+</body>
+</html>

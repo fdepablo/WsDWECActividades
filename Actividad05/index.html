@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis juegos pendientes</title>
+    <style>
+        .juego { margin-bottom: 4px; }
+        #enlace { display: block; margin-bottom: 10px; }
+        button { margin: 3px; }
+    </style>
+</head>
+<body>
+    <h1 id="titulo">Mis juegos pendientes</h1>
+    <p id="presentacion">Estos son los juegos que quiero probar.</p>
+    <p>Usa los botones para modificar la página.</p>
+
+    <ul id="listaJuegos">
+        <li class="juego">Minecraft</li>
+        <li class="juego">Hollow Knight</li>
+        <li class="juego">Terraria</li>
+    </ul>
+
+    <a id="enlace" href="https://store.steampowered.com/">Steam</a>
+
+    <div>
+        <button onclick="cambiarTitulo()">Cambiar título</button>
+        <button onclick="cambiarPresentacion()">Cambiar presentación</button>
+        <button onclick="colorearJuegos()">Colorear juegos</button>
+        <button onclick="resaltarParrafos()">Resaltar párrafos</button>
+        <button onclick="modificarEnlace()">Modificar enlace</button>
+        <button onclick="anadirJuego()">Añadir juego</button>
+        <button onclick="crearMensaje()">Crear mensaje</button>
+        <button onclick="eliminarMensaje()">Eliminar mensaje</button>
+        <!-- AMPLIACIÓN -->
+        <button onclick="eliminarUltimoJuego()">Eliminar último juego</button>
+    </div>
+    
+    <div id="zonaMensaje"></div>
+
+    <script src="juegos.js"></script>
+</body>
+</html>

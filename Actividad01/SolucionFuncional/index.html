@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Operaciones matemáticas</title>
+    <script src="operaciones.js"></script>
+</head>
+<body>
+    <h1>Operaciones matemáticas</h1>
+    <!-- <input type="number">, el salto por defecto es 1. Con step="any", la calculadora admite números decimales sin exigir que sigan un intervalo concreto. -->
+    <p><label for="primero">Primer número</label> <input type="number" step="any" id="primero" value="8"></p>
+    <p><label for="segundo">Segundo número</label> <input type="number" step="any" id="segundo" value="2"></p>
+
+    <button onclick="calcular(sumar)">Sumar</button>
+    <button onclick="calcular(restar)">Restar</button>
+    <button onclick="calcular(multiplicar)">Multiplicar</button>
+    <button onclick="calcular(dividir)">Dividir</button>
+
+    <p id="resultado"></p>    
+</body>
+</html>
