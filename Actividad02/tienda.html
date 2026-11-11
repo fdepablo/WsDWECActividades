@@ -84,12 +84,16 @@
             return { importe: ventas[indiceMaximo], indice: indiceMaximo };
         }
 
-        console.log("Venta máxima JSON: ", ventaMaxima());
+        const json = ventaMaxima();
+        console.log("Venta máxima JSON: ", json);
+        console.log("JSON importe: " + json.importe);
+        console.log("JSON indice: "+ json.indice);
 
         function mediaDiaria() {
             return totalVentas() / ventas.length;
         }
 
+        //Hacemos que el resultado tengo como máximo dos decimales
         console.log("Media diaria", mediaDiaria().toFixed(2));
 
         // 3. Pedidos pendientes

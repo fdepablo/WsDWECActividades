@@ -1,3 +1,4 @@
+
 function sumar(a, b) {
     return a + b;
 }
@@ -17,7 +18,9 @@ function dividir(a, b) {
     return a / b;
 }
 
+/** lo que entra es la función que queremos ejecutar */
 function calcular(operacion) {
+    // con 'valueAsNumber' nos retorna el valor en formato decimal
     const a = document.getElementById("primero").valueAsNumber;
     const b = document.getElementById("segundo").valueAsNumber;
     const resultado = document.getElementById("resultado");
